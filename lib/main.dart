@@ -6,7 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 // SHA1: F2:8E:D8:1C:43:CE:93:65:9B:5C:EC:88:24:75:7C:C1:57:02:4A:B6
 // SHA-256: 0A:27:97:BB:68:15:90:65:B5:CD:F4:22:53:3B:F8:0B:6A:03:4B:97:44:7D:8C:DC:99:1C:50:BC:D5:31:2C:5D
 //./gradlew signingReport(cd android)
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
