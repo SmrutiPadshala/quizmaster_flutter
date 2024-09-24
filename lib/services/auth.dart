@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/material.dart';
+import 'package:quizmaster/services/localdb.dart';
 import 'firedb.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -26,58 +26,24 @@ Future<User?> signWithGoogle() async {
 
   final User? currentUser = _auth.currentUser;
   assert(currentUser!.uid == user!.uid);
-  print(user);
-  FireDB().createNewUser(user!.displayName.toString(), user.email.toString(),
-      user.photoURL.toString(), user.uid.toString());
 
-  return null;
+  await FireDB().createNewUser(user!.displayName.toString(), user.email.toString(),
+      user.photoURL.toString(), user.uid.toString());
+  await LocalDB.saveUserID(user.uid);
+  await LocalDB.saveName(user.displayName.toString());
+  await LocalDB.saveUrl(user.photoURL.toString());
+
+  print(user);
   // }catch(e){
   //   print("ERROR OCCURED IN SIGN IN");
   //   print(e);
   // }
 }
 
-class AuthServices {
-  static signupUser(
-      String email, String password, String name, BuildContext context) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-      await FirebaseAuth.instance.currentUser!.updateEmail(email);
-      await FirestoreServices.saveUser(name, email, userCredential.user!.uid);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Registration Successful')));
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Password Provided is too weak')));
-      } else if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Email Provided already Exists')));
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
-
-  static signinUser(String email, String password, BuildContext context) async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('You are Logged in')));
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('No user Found with this Email')));
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Password did not match')));
-      }
-    }
-  }
+Future<String> signOut() async
+{
+  await googleSignIn.signOut();
+  await _auth.signOut();
+  await LocalDB.saveUserID("null");
+  return "SUCCESS";
 }

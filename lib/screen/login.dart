@@ -7,6 +7,7 @@ import 'package:overlay_support/overlay_support.dart';
 import '../services/InternetCon.dart';
 import '../services/firedb.dart';
 import '../services/auth.dart';
+import 'package:quizmaster/screen/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -34,8 +35,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
-      body: SingleChildScrollView(
-        child: Center(
+      body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -55,113 +55,13 @@ class _LoginState extends State<Login> {
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              Form(
-                key: _formKey,
-                child: Container(
-                  padding: EdgeInsets.all(14),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      login
-                          ?Container()
-                          :TextFormField(
-                              key: ValueKey('name'),
-                              decoration: InputDecoration(
-                                hintText: "Enter your Name",
-                              ),
-                              validator: (value){
-                                if(value!.isEmpty){
-                                  return "Please Enter your Name";
-                                }
-                                else{
-                                  return null;
-                                }
-                              },
-                              onSaved: (value){
-                                setState(() {
-                                  name=value!;
-                                });
-                              },
-                      ),
-                      TextFormField(
-                        key: ValueKey('email'),
-                        decoration: InputDecoration(
-                          hintText: "Enter Email",
-                        ),
-                        validator: (value){
-                          if(value!.isEmpty || !value.contains('@')){
-                            return "Please Enter valid Email";
-                          }
-                          else{
-                            return null;
-                          }
-                        },
-                        onSaved: (value){
-                          setState(() {
-                            email=value!;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        key: ValueKey('password'),
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: "Enter Password",
-                        ),
-                        validator: (value){
-                          if(value!.length<6){
-                            return "Please Enter Password of min length 6";
-                          }
-                          else{
-                            return null;
-                          }
-                        },
-                        onSaved: (value){
-                          setState(() {
-                            password=value!;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        height: 55,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () async{
-                            if(_formKey.currentState!.validate()){
-                              _formKey.currentState!.save();
-                              login
-                                  ?AuthServices.signinUser(email,password, context)
-                                  : AuthServices.signupUser(
-                                  email, password, name, context);
-                            }
-                          },
-                            child: Text(login ? 'Login' : 'Signup')),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-            TextButton(
-                onPressed: () {
-                  setState(() {
-                    login = !login;
-                  });
-                },
-                child: Text(login
-                    ? "Don't have an account? Signup"
-                    : "Already have an account? Login"))
-        
-                    ],
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 12,
               ),
               SignInButton(Buttons.GoogleDark, onPressed: () async {
                 await signWithGoogle();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Home()));
+
               }),
               const SizedBox(
                 height: 10,
@@ -173,7 +73,6 @@ class _LoginState extends State<Login> {
             ],
           ),
         ),
-      ),
     );
   }
 

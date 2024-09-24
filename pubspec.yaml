@@ -44,6 +44,7 @@ dependencies:
   internet_connection_checker: any
   overlay_support: any
   carousel_slider: any
+  confetti: any
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:quizmaster/widgets/lifeline_sidebar.dart';
 
 class Question extends StatefulWidget {
   const Question({ Key? key }) : super(key: key);
@@ -17,7 +18,7 @@ class _QuestionState extends State<Question> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(title: Text("Rs.20,000" , style: TextStyle(fontSize: 25),), centerTitle: true,backgroundColor: Colors.blueGrey,foregroundColor: Colors.white,),
-        drawer: Drawer(),
+        drawer: Lifeline_Drawer(),
         floatingActionButton: ElevatedButton(child: Text("QUIT GAME" , style: TextStyle(fontSize: 27),),onPressed: (){},),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +71,7 @@ class _QuestionState extends State<Question> {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(14),
                 margin: EdgeInsets.symmetric(horizontal: 17,vertical: 5),
-                decoration: BoxDecoration(color: Colors.blueGrey.withOpacity(0.4) , borderRadius: BorderRadius.circular(34)),
+                decoration: BoxDecoration(color: Colors.blueGrey.withOpacity(0.8) , borderRadius: BorderRadius.circular(34)),
                 child : Text("D. Enginnering" , style: TextStyle(fontSize: 17 ,color: Colors.white , fontWeight: FontWeight.bold), textAlign: TextAlign.center, )
             ),
           ],),

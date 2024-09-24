@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:quizmaster/screen/home.dart';
 
+import '../screen/login.dart';
+import '../services/auth.dart';
+import '../services/localdb.dart';
 class SideNav extends StatelessWidget {
-  const SideNav({ Key? key }) : super(key: key);
+  String name;
+  String money;
+  String rank;
+  SideNav( @required this.name,@required this.money,@required this.rank ) ;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +26,9 @@ class SideNav extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("SMRUTI" , style: TextStyle(color: Colors.white , fontSize: 20 , fontWeight: FontWeight.bold),),
+                    Text( name, style: TextStyle(color: Colors.white , fontSize: 20 , fontWeight: FontWeight.bold),),
                     SizedBox(height: 10,),
-                    Text("Rs.50,000" , style: TextStyle(color: Colors.white , fontSize: 15),)
+                    Text("Rs. $money" , style: TextStyle(color: Colors.white , fontSize: 15),)
                   ],
                 )
               ],),
@@ -29,24 +36,38 @@ class SideNav extends StatelessWidget {
             ),
             Container(
                 padding: EdgeInsets.only(left: 25),
-                child: Text("Leaderboard - 230th Rank" , style: TextStyle(color: Colors.white ,fontSize: 19,fontWeight: FontWeight.bold,))
+                child: Text("Leaderboard - $rank th Rank" , style: TextStyle(color: Colors.white ,fontSize: 19,fontWeight: FontWeight.bold,))
             ),
             SizedBox(height: 48,),
             listItem(
+                context: context,
+                path: MaterialPageRoute(builder: (BuildContext context) => Home()),
                 label : "DAILY QUIZ",
                 icon : Icons.quiz
             ),
             listItem(
+                context: context,
+                path: MaterialPageRoute(builder: (BuildContext context) => Home()),
                 label : "Leaderboard",
                 icon : Icons.leaderboard
             ),
             listItem(
+                context: context,
+                path: MaterialPageRoute(builder: (BuildContext context) => Home()),
                 label : "How To Use",
                 icon : Icons.question_answer
             ),
             listItem(
+                context: context,
+                path: MaterialPageRoute(builder: (BuildContext context) => Home()),
                 label : "About Us",
                 icon : Icons.face
+            ),
+            listItem(
+                context: context,
+                path: MaterialPageRoute(builder: (BuildContext context) => Login()),
+                label : "Logout",
+                icon : Icons.logout
             )
           ],
         ),
@@ -56,7 +77,9 @@ class SideNav extends StatelessWidget {
 
   Widget listItem({
     required String label,
-    required IconData icon
+    required IconData icon,
+    required BuildContext context,
+    required MaterialPageRoute path
   }){
     final color = Colors.white;
     final hovercolor = Colors.white60;
@@ -65,7 +88,10 @@ class SideNav extends StatelessWidget {
       leading: Icon(icon , color: color,),
       hoverColor: hovercolor,
       title: Text(label , style: TextStyle(color: color)),
-      onTap: (){},
+      onTap: () async{
+        await signOut();
+        Navigator.pushReplacement(context, path);
+      },
     );
   }
 }
