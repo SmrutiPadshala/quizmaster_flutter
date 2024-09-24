@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
 @override
   void initState() {
     super.initState();
-    getUserDet();
+     getUserDet();
   }
 
   @override
@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
               Container(
               decoration:  BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(image : NetworkImage("https://images.unsplash.com/photo-1632931612792-fbaacfd952f6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80" ,) , fit: BoxFit.cover)),
+              image: DecorationImage(image: AssetImage("assets/img/quiz.jpeg" ) , fit: BoxFit.cover)),
         ),
         ],
 
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
     child: Container(
 
     height: 150,
-    child: Image.network("https://images.unsplash.com/photo-1632931612792-fbaacfd952f6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80" ,fit: BoxFit.cover,  ),),
+    child: Image(image:AssetImage("assets/img/quiz.jpeg"),fit: BoxFit.cover,  ),),
     ),
 
 
@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
     child: Container(
 
     height: 150,
-    child: Image.network("https://images.unsplash.com/photo-1632931612792-fbaacfd952f6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80",fit: BoxFit.cover),),
+    child: Image(image:AssetImage("assets/img/quiz.jpeg"),fit: BoxFit.cover,  ),),
     ),
     Positioned(
     top: 3,
@@ -158,7 +158,7 @@ class _HomeState extends State<Home> {
     child: Container(
 
     height: 150,
-    child: Image.network("https://images.unsplash.com/photo-1632931612792-fbaacfd952f6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80" ,fit: BoxFit.cover,  ),),
+    child: Image(image:AssetImage("assets/img/quiz.jpeg"),fit: BoxFit.cover,  ),),
     ),
 
 
@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
     child: Container(
 
     height: 150,
-    child: Image.network("https://images.unsplash.com/photo-1632931612792-fbaacfd952f6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80",fit: BoxFit.cover),),
+    child: Image(image:AssetImage("assets/img/quiz.jpeg"),fit: BoxFit.cover,  ),),
     ),
     Positioned(
     top: 3,
@@ -221,7 +221,7 @@ class _HomeState extends State<Home> {
     width: MediaQuery.of(context).size.width,
 
     height: 150,
-    child: Image.network("https://images.unsplash.com/photo-1632931612792-fbaacfd952f6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80",fit: BoxFit.cover),),
+    child: Image(image:AssetImage("assets/img/quiz.jpeg"),fit: BoxFit.cover,  ),),
     ),
     Positioned(
     top: 3,

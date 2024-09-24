@@ -15,7 +15,7 @@ class SideNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Color.fromRGBO(128, 0, 128, 1),
+        color: Colors.blueGrey,
         child: ListView(
           // padding:  EdgeInsets.symmetric(horizontal: 20),
           children: [
