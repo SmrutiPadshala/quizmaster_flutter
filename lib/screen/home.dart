@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../services/localdb.dart';
-import '../widgets/sidenavbar.dart';
+import 'package:quizmaster/services/localdb.dart';
+import 'package:quizmaster/widgets/sidenavbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
   String name = "User Name";
   String money = "--";
   String lead = "---";
+  String proUrl="---";
 
   getUserDet() async{
     await LocalDB.getName().then((value){
@@ -47,7 +48,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('QuizMaster - Quiz Game'),backgroundColor: Colors.blueGrey,foregroundColor: Colors.white,),
-      drawer: SideNav(name,money,lead),
+      drawer: SideNav(name,money,lead,proUrl),
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(vertical: 15),
