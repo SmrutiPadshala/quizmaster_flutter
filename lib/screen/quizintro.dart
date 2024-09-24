@@ -1,16 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:quizmaster/services/QuizDhandha.dart';
+import 'package:quizmaster/services/checkQuizUnlock.dart';
 
-import 'package:flutter/material.dart';
 
-class QuizIntro extends StatelessWidget {
-  const QuizIntro({ Key? key }) : super(key: key);
+class QuizIntro extends StatefulWidget {
+  String QuizName;
+  String QuizImgUrl;
+  String QuizTopics;
+  String QuizDuration;
+  String QuizAbout;
+  String QuizId;
+  String QuizPrice;
+  QuizIntro({
+    required this.QuizAbout,
+    required this.QuizDuration,
+    required this.QuizImgUrl,
+    required this.QuizName,
+    required this.QuizTopics,
+    required this.QuizId,
+    required this.QuizPrice
+  });
 
+  @override
+  _QuizIntroState createState() => _QuizIntroState();
+}
+
+
+
+class _QuizIntroState extends State<QuizIntro> {
+
+  bool quizIsUnlcoked = false;
+  getQuizUnlockStatus() async{
+    await CheckQuizUnlock.checkQuizUnlockStatus(widget.QuizId).then((unlockStatus){
+      setState(() {
+        quizIsUnlcoked = unlockStatus;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    getQuizUnlockStatus();
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: ElevatedButton(child: Text("START QUIZ" , style: TextStyle(fontSize: 20),), onPressed: (){},style: ElevatedButton.styleFrom(foregroundColor: Colors.white, backgroundColor: Colors.blueGrey,),),
-      appBar: AppBar(title: Text("QuizMaster - Quiz Game"),backgroundColor: Colors.blueGrey,foregroundColor: Colors.white,),
+      floatingActionButton: ElevatedButton(child: Text( quizIsUnlcoked ?  "START QUIZ" : "UNLOCK QUIZ" , style: TextStyle(fontSize: 20),), onPressed: (){
+        quizIsUnlcoked ?
+        print("QUIZ IS ALREADY UNLOCKED")
+            :
+        QuizDhandha.buyQuiz(QuizID: widget.QuizId , QuizPrice: int.parse(widget.QuizPrice )).then((quizKharidLiya){
+          if(quizKharidLiya){
+            setState(() {
+              quizIsUnlcoked = true;
+            });
+          }else{
+            return showDialog(context: context, builder: (context)=>AlertDialog(
+              title: Text("You do not have enough money to buy this QUIZ!"),
+              actions: [
+                TextButton(onPressed: (){
+                  Navigator.of(context).pop();
+                }, child: Text("OK"))
+              ],
+            ));
+          }
+        });
+      }),
+      appBar: AppBar(title: Text("KBC Quiz App"),),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(bottom: 40),
@@ -26,11 +85,11 @@ class QuizIntro extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Quiz Name" , textAlign: TextAlign.center, style: TextStyle(fontSize: 30 , fontWeight: FontWeight.w500),)
+                    Text(widget.QuizName , textAlign: TextAlign.center, style: TextStyle(fontSize: 30 , fontWeight: FontWeight.w500),)
                   ],),),
 
 
-              Image.network("https://images.unsplash.com/photo-1541873676-a18131494184?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=418&q=80" , fit: BoxFit.cover, height: 230 , width: MediaQuery.of(context).size.width,),
+              Image.network(widget.QuizImgUrl, fit: BoxFit.cover, height: 230 , width: MediaQuery.of(context).size.width,),
               Container(
                 padding: EdgeInsets.all(18),
                 child:
@@ -44,7 +103,7 @@ class QuizIntro extends StatelessWidget {
                         Text("Related To -" , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)
                       ],
                     ),
-                    Text("Science , Space , Astronmy , Rocket , ISRO" , style: TextStyle(fontSize: 17),)
+                    Text(widget.QuizTopics , style: TextStyle(fontSize: 17),)
                   ],),
               ) ,
               Container(
@@ -61,7 +120,7 @@ class QuizIntro extends StatelessWidget {
                         Text("Duration -" , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)
                       ],
                     ),
-                    Text("10 Minutes" ,textAlign: TextAlign.left, style: TextStyle(fontSize: 17),)
+                    Text("${widget.QuizDuration} Minutes" ,textAlign: TextAlign.left, style: TextStyle(fontSize: 17),)
                   ],),
               ) ,
               Container(
@@ -77,7 +136,7 @@ class QuizIntro extends StatelessWidget {
                         Text("About Quiz -" , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)
                       ],
                     ),
-                    Text("fcmoaojfd josdjofjsj jidgj iodjj ijj gjedjrrjdt jojgr jjrdj tldjtlhijrldj tljtl jhorodjtdhjpr jpj fcmoaojfd josdjofjsj jidgj iodjj ijj gjedjrrjdt jojgr jjrdj tldjtlhijrldj tljtl jhorodjtdhjpr jpj fcmoaojfd josdjofjsj jidgj iodjj ijj gjedjrrjdt jojgr jjrdj tldjtlhijrldj tljtl jhorodjtdhjpr jpj fcmoaojfd josdjofjsj jidgj iodjj ijj gjedjrrjdt jojgr jjrdj tldjtlhijrldj tljtl jhorodjtdhjpr jpj fcmoaojfd josdjofjsj jidgj iodjj ijj gjedjrrjdt jojgr jjrdj tldjtlhijrldj tljtl jhorodjtdhjpr jpj fcmoaojfd josdjofjsj jidgj iodjj ijj gjedjrrjdt jojgr jjrdj tldjtlhijrldj tljtl jhorodjtdhjpr jpj " , style: TextStyle(fontSize: 17),)
+                    Text(widget.QuizAbout , style: TextStyle(fontSize: 17),)
                   ],),
               )
             ],)
